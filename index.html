@@ -1,0 +1,62 @@
+<html>
+ <head>
+  <title>JanDaxel</title>
+  <link rel="icon" href="http://icons.iconarchive.com/icons/artua/star-wars/256/Death-Star-icon.png" type="image/vnd.microsoft.icon">
+  <style>
+	body	{background-color: gray; background-position: center; position: absolute; left: 31%; top: 25%; width: 40%; height: 40%;}
+	
+	/* Das Kontaktformular */ 
+	form {
+		background-color: #eee;
+		width: 570px; /* Breite des Formulars */
+		padding: 20px;
+		border: 2px solid green;
+	}
+	label { /* Beschriftung auf eigener Zeile */
+		display: block;
+		cursor: pointer; /* Mauszeiger wird zur Hand */
+	}
+	input#absender,
+		textarea {
+		width: 550px;
+		border: 1px solid #8c8c8c;
+		margin-bottom: 1em;
+	}
+	input#Nachname,
+		textarea {
+		width: 550px;
+		border: 1px solid #8c8c8c;
+		margin-bottom: 1em;
+	}
+	textarea {
+		height: 25em;
+	}
+	input:focus,
+		textarea:focus {
+		background-color: #d9d9d9;
+	}
+  </style>
+ </head>
+ <body background="http://blueprintcreatives.com/wp-content/uploads/2013/03/pattern.png" id="kontaktseite" onload="document.kontaktformular.Nachname.focus();">
+	<form id="kontaktformular" name="kontaktformular" action="http://www.formular-chef.de/fc.cgi" method="post">
+		<input type="hidden" name="empfaenger" value="peterdirk22X§Xfreenet.de" />
+		<input type="hidden" name="template_antwort" value="https://jandaxel.github.io/startseite/kontaktformularsuccess.html">
+		<input type="hidden" name="template_fehler" value="https://jandaxel.github.io/startseite/kontaktformularfailure.html">
+		<div>
+			<label for="Nachname">Ihr Name:</label>
+			<input type="text" id="Nachname" name="Nachname" />
+		</div>
+		<div>
+			<label for="absender">Ihre  E-Mail:</label>
+			<input type="email" id="absender" name="absender" />
+		</div>
+		<div>
+			<label for="nachricht">Ihre Nachricht:</label>
+			<textarea id="nachricht" name="nachricht" cols="20" rows="5"></textarea> 
+		</div>
+		<div>
+			<input type="submit" value="Abschicken" />
+		</div>
+	</form>
+ </body>
+</html>
