@@ -1,0 +1,11 @@
+Systembeschreibung - Mines3D
+
+Mines3D wird als Executable File an den Benutzer gegeben. Diese zeigt nach dem Öffnen einen Auswahlbildschirm an, in dem man die Möglichkeit hat, zwischen der Auswahl der Spielmodi, den Einstellungen und dem Beenden des Programmes. 
+In den Einstellungen lässt sich der Sound regeln und die Mitwirkenden an dem Programm werden dort aufgelistet.
+Es gibt zwei Spielmodi. Der erste ist ein Modus, in dem es um das einfache Lösen eines Minenfeldes geht. In dem zweiten Modus, dem Abenteuer Modus, muss der Benutzer bestimmte Level anhand einer Story lösen. 
+
+Das Minenfeld besteht aus einer bestimmten Anzahl an Platten, welche eine bestimmte Anzahl von Minen bedecken. Der Benutzer, welcher sich mithilfe eines dreidimensionalen Charakters auf dem Feld bewegt, muss versuchen Bombenfreie Felder aufzudecken und anhand der ihm gebotenen Zahlen unter den Feldern Minen zu finden und zu markieren. Die Zahlen, welche sich offenbaren können von 0 bis 8 reichen und zeigen die Anzahl der Minen auf den benachbarten Feldern an. 
+Falls ein Feld einen 0 anzeigt, werden die 8 umstehenden Felder aufgedeckt. 
+
+Der Charakter wird mit den Tasten „W, A, S und D“ gesteuert und kann mit einem Klick auf die Leertaste eine Platte aufdecken. 
+
