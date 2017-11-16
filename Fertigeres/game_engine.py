@@ -1,4 +1,4 @@
-from bge import logic
+﻿from bge import logic
 from bge import render
 from bge import events
 import random
@@ -27,25 +27,35 @@ def Click():
 		for i in range (lowX, highX): 
 			for j in range (lowY, highY):
 				if not (i == x and j == y):	#Der Nachbar ist nicht die Mine
-					Coord = str(i) + str(j) + str(x)
-					o = scene.objects[str(Coord) + "Cube"]
+					Coord = str(i) + ";" + str(j)
+					o = scene.objects[str(Coord)]
 					if not o['mine'] == True: #falls Nachbar keine Mine ist...
 						o['neighborMine'] += 1
 						
-	def ColorSphere(o):
+	def ColorSphere(o,x,y):
 		if o['neighborMine'] == 1 :
-			number = 1			#Green
+			print("1meine")			#Green
 		elif o['neighborMine'] == 2 :
-			number = 2			#Yellow
+			print("2meine")			#Yellow
 		elif o['neighborMine'] == 3 :
-			number = 3			#Red
+			print("3meine")			#Red
 		elif o['neighborMine'] == 4 :
-			number = 4			#Magenta
+			print("4meine")			#Magenta
 		elif o['neighborMine'] == 5 :
-			number = 5			#Blue
+			print("5meine")			#Blue
 		else : 
-			number = 0			#White
-			
+			print("0meine")			#White
+		scene = bge.logic.getCurrentScene()
+		cont = bge.logic.getCurrentController()
+		own = cont.owner
+		obj = scene.objects
+		
+		x = str(x)
+		y = str(y)
+		xy = (x+";"+y)
+		
+		objdel = obj[xy]
+		objdel.endObject()
 	
 	def Init():
 		if not 'init' in owner:
@@ -56,16 +66,17 @@ def Click():
 			#Alle Felder auf "keine Mine" setzen
 			for i in range (1,10):
 				for j in range (1, 10):
-					Coord = str(i) + str (j)
-					o = scene.objects[str(Coord) + "Cube"]
+					Coord = str(i) + ";" + str (j)
+					o = scene.objects[str(Coord)]
 					o['mine'] = False
 					o['neighborMine'] = 0
+					o['Clicked'] = False
 			#Minen zufällig setzen
 			mines = 10
 			for i in range (1, 1 + mines):
 				x = random.randrange(1,10)
 				y = random.randrange(1,10)
-				o = scene.objects[str(x) + str(y) + "Cube"]
+				o = scene.objects[str(x) + ";" + str(y)]
 				if o['mine'] == False:
 					o['mine'] = True
 					i += 1
@@ -75,8 +86,8 @@ def Click():
 	def Clicked(x,y):
 		global Cleared
 		global mines
-		Coord = str(x) + str(y)
-		o = scene.objects[str(Coord) + "Cube"]
+		Coord = str(x) + ";" + str(y)
+		o = scene.objects[str(Coord)]
 		if o['Clicked'] == False:
 			if o['mine'] == True:
 				print("Game Over")
@@ -84,31 +95,31 @@ def Click():
 			elif o['neighborMine'] != 0:
 				o['Clicked'] = True
 				Cleared += 1
-				ColorSphere(o)
+				ColorSphere(o,x,y)
 				#o.color = (0, 1, 0, 1)
 				if mines + Cleared == 100:
 					print(str(Cleared) + " mines cleared! you won!!")
 				else:
 					print(str(Cleared) + " out of " + str(100-mines) + " cleared, Still " + str(100-mines-Cleared) + " to go")			
-				else:
-					o['Clicked'] = True
-					Cleared += 1
-					o.visible = False
-					o.occlusion = False
-					#define area around click
-					lowX = max(x-1, 1)
-					highX = min(x+2, 10)
-					lowY = max(y-1, 1)
-					highY = min(y+2, 10)
-					#loop through area around click
-					for i in range (lowX, highX): 
-						for j in range (lowY, highY):
-								#dont click itself
-								if not (i == x and j == y):
-									Coord = str(i) + str(j)
-									o = scene.objects[str(Coord) + "Cube"]
-									if o['Clicked'] == False:
-										Clicked(i,j)
+			else:
+				o['Clicked'] = True
+				Cleared += 1
+				o.visible = False
+				o.occlusion = False
+				#define area around click
+				lowX = max(x-1, 1)
+				highX = min(x+2, 10)
+				lowY = max(y-1, 1)
+				highY = min(y+2, 10)
+				#loop through area around click
+				for i in range (lowX, highX): 
+					for j in range (lowY, highY):
+							#dont click itself
+							if not (i == x and j == y):
+								Coord = str(i) + ";" + str(j)
+								o = scene.objects[str(Coord)]
+								if o['Clicked'] == False:
+									Clicked(i,j)
 	
 	
 	if body :
@@ -120,14 +131,5 @@ def Click():
 			y = body[1]
 			print ("x: ",x," y: ",y)
 			
-			scene = bge.logic.getCurrentScene()
-			cont = bge.logic.getCurrentController()
-			own = cont.owner
-			obj = scene.objects
+			Clicked(int(x),int(y))
 			
-			x = str(x)
-			y = str(y)
-			xy = (x+";"+y)
-			
-			objdel = obj[xy]
-			objdel.endObject()
