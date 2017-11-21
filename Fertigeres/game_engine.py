@@ -1,4 +1,4 @@
-﻿from bge import logic
+from bge import logic
 from bge import render
 from bge import events
 import random
@@ -13,7 +13,8 @@ def Click():
 	scene = logic.getCurrentScene()
 	Cleared = 0
 	mines = 0
-
+	MaxX = 0
+	MaxY = 0
 	contr = bge.logic.getCurrentController()
 	sens = contr.sensors['Message']
 	body = sens.subjects
@@ -32,7 +33,7 @@ def Click():
 					if not o['mine'] == True: #falls Nachbar keine Mine ist...
 						o['neighborMine'] += 1
 						
-	def ColorSphere(o,x,y):
+	def ColorSphere(o, x, y):
 		if o['neighborMine'] == 1 :
 			print("1meine")			#Green
 		elif o['neighborMine'] == 2 :
@@ -60,12 +61,16 @@ def Click():
 	def Init():
 		if not 'init' in owner:
 			owner['init'] = 1
+			global MaxX
+			global MaxY
 			global Cleared
 			global mines
 			Cleared = 0
+			MaxX = 10 + 1
+			MaxY = 10 + 1
 			#Alle Felder auf "keine Mine" setzen
-			for i in range (1,10):
-				for j in range (1, 10):
+			for i in range (1, MaxX):
+				for j in range (1, MaxY):
 					Coord = str(i) + ";" + str (j)
 					o = scene.objects[str(Coord)]
 					o['mine'] = False
@@ -74,8 +79,8 @@ def Click():
 			#Minen zufällig setzen
 			mines = 10
 			for i in range (1, 1 + mines):
-				x = random.randrange(1,10)
-				y = random.randrange(1,10)
+				x = random.randrange(1,MaxX)
+				y = random.randrange(1,MaxY)
 				o = scene.objects[str(x) + ";" + str(y)]
 				if o['mine'] == False:
 					o['mine'] = True
@@ -95,7 +100,7 @@ def Click():
 			elif o['neighborMine'] != 0:
 				o['Clicked'] = True
 				Cleared += 1
-				ColorSphere(o,x,y)
+				ColorSphere(o, x, y)
 				#o.color = (0, 1, 0, 1)
 				if mines + Cleared == 100:
 					print(str(Cleared) + " mines cleared! you won!!")
